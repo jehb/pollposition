@@ -6,7 +6,7 @@ Poll position is a game, but it's a serious game.
 
 ## TODO
 
-- [ ] Merge changes with other working directory
+- [ ] Merge changes with other working directory from OpenJam. *(Yeah, probably shouldn't have kept my learning-to-use-Google-Directions-API stuff so spread acrsoss junk directories)*
 - [ ] Finish the game! (In other words, this is a partially-finished prototype.)
 
 ## Potential Remixes
