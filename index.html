@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Poll Position</title>
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+        width: 75%;
+        left: 25%;
+        position: absolute;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      #left-panel {
+        position: absolute;
+        top: 0px;
+        width: 25%;
+        height: 100%;
+        left: 0;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Press Start 2P','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+      #warnings-panel {
+        width: 100%;
+        height:10%;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="left-panel">
+    <div style="width:90%; margin: auto;">
+    <h1>Poll Position</h1>
+    <img src="pollposition.png" style="width:100%; top:0px;">
+    <div id="game-panel">
+	    <div id="intro"><p style="text-align: left">How hard is it to get to your polling place? What if you didn't have a car and had to walk? Guess how long it takes each of these voters (pulled from real-life examples) to walk to their polling place and back.</p>
+	    <button type="button" onclick="gameinit()">Begin!</button>
+            </div> 
+            <div id="stats" style="text-align: left; display: none;">
+            Name :  <input type="text" name="start" id="start"><br />
+            Home :  <input type="text" name="end" id="end"<br />
+            Polling Place : <span id="end"></span><br /><br />
+            How long do you think it takes this person to walk to their polling place? (in minutes)<br />
+            <input type="text" name="guess"><button type="button" onclick="guess()">Guess!</button>
+            </div>
+    </div>
+    </div>
+    </div>
+    <div id="map"></div>
+    &nbsp;
+    <div id="warnings-panel"></div>
+<script>
+
+
+function initMap() {
+
+        var markerArray = [];
+
+        // Instantiate a directions service.
+        var directionsService = new google.maps.DirectionsService;
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+
+        // Create a map and center it on Manhattan.
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 10,
+          center: {lat: 35.90, lng: -78.90},
+          mapTypeControl: false,
+          styles: [{"elementType":"geometry","stylers":[{"color":"#00202f"}]},{"elementType":"labels.text.fill","stylers":[{"color":"#fddd8a"}]},{"elementType":"labels.text.stroke","stylers":[{"color":"#1a3646"}]},{"featureType":"administrative","elementType":"geometry","stylers":[{"visibility":"off"}]},{"featureType":"administrative.country","elementType":"geometry.stroke","stylers":[{"color":"#4b6878"}]},{"featureType":"administrative.land_parcel","elementType":"labels.text.fill","stylers":[{"color":"#64779e"}]},{"featureType":"administrative.province","elementType":"geometry.stroke","stylers":[{"color":"#4b6878"}]},{"featureType":"landscape.man_made","elementType":"geometry.stroke","stylers":[{"color":"#d10117"}]},{"featureType":"landscape.natural","elementType":"geometry","stylers":[{"color":"#023e58"}]},{"featureType":"poi","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#283d6a"}]},{"featureType":"poi","elementType":"labels.text.fill","stylers":[{"color":"#6f9ba5"}]},{"featureType":"poi","elementType":"labels.text.stroke","stylers":[{"color":"#1d2c4d"}]},{"featureType":"poi.park","elementType":"geometry.fill","stylers":[{"color":"#023e58"}]},{"featureType":"poi.park","elementType":"labels.text.fill","stylers":[{"color":"#3C7680"}]},{"featureType":"road","elementType":"geometry","stylers":[{"color":"#5a8d91"}]},{"featureType":"road","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"labels.text.fill","stylers":[{"color":"#fddd8a"}]},{"featureType":"road","elementType":"labels.text.stroke","stylers":[{"color":"#1d2c4d"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#2c6675"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#255763"}]},{"featureType":"road.highway","elementType":"labels.text.fill","stylers":[{"color":"#5a8d91"}]},{"featureType":"road.highway","elementType":"labels.text.stroke","stylers":[{"color":"#023e58"}]},{"featureType":"transit","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"labels.text.fill","stylers":[{"color":"#98a5be"}]},{"featureType":"transit","elementType":"labels.text.stroke","stylers":[{"color":"#1d2c4d"}]},{"featureType":"transit.line","elementType":"geometry.fill","stylers":[{"color":"#283d6a"}]},{"featureType":"transit.station","elementType":"geometry","stylers":[{"color":"#3a4762"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#0e1626"}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"color":"#4e6d70"}]}]
+        });
+
+
+}
+
+		function gameinit() {
+
+        var directionsService = new google.maps.DirectionsService;
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+
+			document.getElementById('intro').style.display = "none";
+			// When person clicks begin, move forward
+			document.getElementById('stats').style.display = "block";
+			var voters = [
+			{
+				"name": "Sally",
+				"home": "100 East Davie Street, Raleigh",
+				"poll": "100 East Franklin Street, Chapel Hill"
+			},
+			{
+				"name": "Henry",
+				"home": "100 East Davie Street, Raleigh",
+				"poll": "100 East Franklin Street, Chapel Hill"
+			}]
+      var count = voters.length;
+			for(var i = 0; i < count; i++) {
+							    document.getElementById('name').innerHTML = voters[i].name;
+							    document.getElementById('start').value = voters[i].home;
+							    document.getElementById('end').value= voters[i].poll;
+         directionsService.route({
+          origin: voters[i].home,
+          destination: voters[i].poll,
+          travelMode: 'WALKING'
+        }, function(response, status) {
+          if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
+      }
+};
+
+
+
+
+</script>
+    <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzMsBpNoDnYcwDuFoBfqShf-an42eHVvk&callback=initMap""> 
+    </script>
+  </body>
+</html>
