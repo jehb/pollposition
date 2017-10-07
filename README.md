@@ -4,6 +4,11 @@ How hard is it to get to your polling place? How hard would it be to get there i
 
 Poll position is a game, but it's a serious game.
 
+## TODO
+
+- [ ] Merge changes with other working directory
+- [ ] Finish the game! (In other words, this is a partially-finished prototype.)
+
 ## Potential Remixes
 
 You could take the source code from this project and turn it into a look at the distance between, well, pretty much any two things, with minimal effort. How far are children from their schools? How far are workers from their jobs? How far are you from the nearst play to get Fourth Meal? The possibilities are endless.
